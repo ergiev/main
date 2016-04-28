@@ -1,40 +1,61 @@
-﻿//Показать на экране лесенку. Количество ступенек указывает пользователь.
+﻿/*
+Нарисовать ёлочку.
+С клавиатуры вводится количество ярусов и высота каждого яруса.
+*/
 
 using System;
 
-namespace _1_stairs
+namespace _2_NewYearTree
 {
     class Program
     {
         static void Main()
         {
-            Console.WriteLine("Введите количество ступенек:");
-
             try
             {
-                UInt32 step = Convert.ToUInt32(Console.ReadLine());
-               
-                if (step < 2)
+                Console.WriteLine("Введите количество ярусов (не менее 3-х):");
+                uint tier = Convert.ToUInt32(Console.ReadLine());
+                Console.WriteLine("Введите высоту яруса (не менее 3-х):");
+                uint height = Convert.ToUInt32(Console.ReadLine());
+
+                if (tier < 3 || height < 3)
                 {
-                    Console.WriteLine("Из этого количества ступеней лестницу не построишь!");
+                    Console.WriteLine("Введите число побольше, чтобы елочка была красивее!");
                     Main();
                 }
 
-                Console.WriteLine("***");
+                //определяем базовую ширину (нижнего ряда первого яруса)
+                uint width = height + (height - 1);
 
-                for (int i = 0; i < step - 1; i++)
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                for (int x = 0; x < tier; x++)
                 {
-                    for (int j = 0; j <= i; j++)
+                    for (int i = 0; i < height; i++)
                     {
-                     Console.Write("  ");
+                        for (int j = 0; j < width - height - i + (tier - x - 1); j++)
+                        {
+                            Console.Write(" ");
+                        }
+                        for (int j = 0; j < i + (i + 1) + x * 2; j++)
+                        {
+                            Console.Write("@");
+                        }
+                        Console.WriteLine();
                     }
-                    Console.WriteLine("*");
+                }
 
-                    for (int j = 0; j <= i; j++)
+                //ножка
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                for (int i = 0; i < tier; i++)
+                {
+                    for (int j = 0; j < width - height + (tier - 2); j++)
                     {
-                        Console.Write("  ");
+                        Console.Write(" ");
                     }
-                    Console.WriteLine("***");
+                    Console.WriteLine("###");
                 }
             }
 
@@ -44,12 +65,11 @@ namespace _1_stairs
                 Main();
             }
 
-            catch(OverflowException)
+            catch (OverflowException)
             {
-                Console.WriteLine("Из этого количества ступеней лестницу не построишь!");
+                Console.WriteLine("Из этого числа ёлочка не вырастит!");
                 Main();
             }
-
         }
     }
 }
